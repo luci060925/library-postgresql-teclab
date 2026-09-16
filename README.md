@@ -1,6 +1,6 @@
 # Library Database
 
-> PostgreSQL library database with PL/pgSQL functions, triggers, and views.
+> PostgreSQL library database with PL/pgSQL functions, a trigger, and a view.
 
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
 
@@ -8,7 +8,7 @@
 
 ## Sobre el proyecto
 
-Base de datos completa para la gestión de una biblioteca, implementada en PostgreSQL 18. Incluye tablas relacionales, funciones PL/pgSQL, triggers y vistas con datos de muestra reales.
+Base de datos completa para la gestión de una biblioteca, implementada en PostgreSQL 18. Incluye tablas relacionadas mediante claves primarias y foráneas, funciones PL/pgSQL, un trigger y una vista, con datos de muestra.
 
 ## Contenido del proyecto
 
@@ -25,22 +25,21 @@ El archivo `teclab_library_database.sql` incluye:
 
 ### Funciones PL/pgSQL
 
-- Registro de préstamos con validación de disponibilidad
-- Registro de devoluciones con actualización de estado
-- Consulta de libros disponibles
-- Listado de préstamos activos por lector
+- `devolver_libro(p_lector, p_libro)` — registra la devolución de un libro completando la fecha de devolución real del préstamo
+- `libros_prestados()` — devuelve la cantidad de préstamos activos (sin devolución registrada)
+- `log_devolucion()` — función del trigger que inserta el registro en `logs_devoluciones`
 
-### Triggers
+### Trigger
 
 - `trg_log_devolucion` — registra automáticamente en `logs_devoluciones` cada vez que se devuelve un libro
 
-### Vistas
+### Vista
 
-- `libros_prestados` — libros actualmente en préstamo con datos del lector
+- `libros_prestados` — préstamos registrados con los datos del lector y del libro (título, editorial e ISBN)
 
 ## Ejecución
 
-**Requisitos:** PostgreSQL 14+.
+**Requisitos:** PostgreSQL 18 (el script fue generado con `pg_dump` 18 y usa instrucciones que no existen en versiones anteriores).
 
 ```bash
 git clone https://github.com/luci060925/library-postgresql-teclab.git
